@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="seedu-header"><nav class="navbar navbar-lg navbar-light bg-lighter"><div class="container"><a class="navbar-brand" href="https://se-edu.github.io/"><img src="images/SeEduLogo.png" alt="SE-EDU"></a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level1">AB-1</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level2">AB-2</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level3">AB-3</a></li><li class="nav-item"><a class="nav-link active" href="index.html">AB-4</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/collate">Collate</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/se-book">Book</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/learningresources">Resources</a></li></ul></div></nav></div><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="index.html">AddressBook-Level4</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link active" href="UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link" href="LearningOutcomes.html">LOs</a></li><li class="nav-item"><a class="nav-link" href="AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/se-edu/addressbook-level4"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>AddressBook Level 4 - User Guide</h1></div><div id="content"><div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>By: <code>Team SE-EDU</code>      Since: <code>Jun 2016</code>      Licence: <code>MIT</code></p>
+<p>By: <code>CS2103-AY1819S1-W14-2</code>      Since: <code>Sep 2018</code>      Licence: <code>MIT</code></p>
 </div>
 </div>
 <div id="toc" class="toc">
@@ -13,24 +13,20 @@
 <li><a href="#quick-start">2. Quick Start</a></li>
 <li><a href="#Features">3. Features</a>
 <ul class="sectlevel2">
-<li><a href="#viewing-help-code-help-code">3.1. Viewing help : <code>help</code></a></li>
-<li><a href="#adding-a-person-code-add-code">3.2. Adding a person: <code>add</code></a></li>
-<li><a href="#listing-all-persons-code-list-code">3.3. Listing all persons : <code>list</code></a></li>
-<li><a href="#editing-a-person-code-edit-code">3.4. Editing a person : <code>edit</code></a></li>
-<li><a href="#locating-persons-by-name-code-find-code">3.5. Locating persons by name: <code>find</code></a></li>
-<li><a href="#deleting-a-person-code-delete-code">3.6. Deleting a person : <code>delete</code></a></li>
-<li><a href="#selecting-a-person-code-select-code">3.7. Selecting a person : <code>select</code></a></li>
-<li><a href="#listing-entered-commands-code-history-code">3.8. Listing entered commands : <code>history</code></a></li>
-<li><a href="#undoing-previous-command-code-undo-code">3.9. Undoing previous command : <code>undo</code></a></li>
-<li><a href="#redoing-the-previously-undone-command-code-redo-code">3.10. Redoing the previously undone command : <code>redo</code></a></li>
-<li><a href="#clearing-all-entries-code-clear-code">3.11. Clearing all entries : <code>clear</code></a></li>
-<li><a href="#exiting-the-program-code-exit-code">3.12. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">3.13. Saving the data</a></li>
-<li><a href="#encrypting-data-files-code-coming-in-v2-0-code">3.14. Encrypting data files <code>[coming in v2.0]</code></a></li>
+<li><a href="#manage-attractions">3.1. Manage attractions:</a></li>
+<li><a href="#user-help-and-accessbility">3.2. User help and accessbility:</a></li>
+<li><a href="#view-the-information-of-a-ride">3.3. View the information of a ride:</a></li>
+<li><a href="#storage-data-management">3.4. Storage/data management:</a></li>
+<li><a href="#exit-code-exit-code">3.5. Exit: <code>exit</code></a></li>
 </ul>
 </li>
 <li><a href="#faq">4. FAQ</a></li>
-<li><a href="#command-summary">5. Command Summary</a></li>
+<li><a href="#command-summary">5. Command Summary</a>
+<ul class="sectlevel2">
+<li><a href="#provided">5.1. Provided</a></li>
+<li><a href="#added">5.2. Added</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -38,7 +34,8 @@
 <h2 id="introduction"><a class="link" href="#introduction">1. Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>AddressBook Level 4 (AB4) is for those who <strong>prefer to use a desktop app for managing contacts</strong>. More importantly, AB4 is <strong>optimized for those who prefer to work with a Command Line Interface</strong> (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB4 can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <a href="#quick-start">Section 2, &#8220;Quick Start&#8221;</a> to get started. Enjoy!</p>
+<p>ThanePark is for those who <strong>prefer to use a desktop app for managing contacts</strong>. More importantly, ThanePark is
+<strong>optimized for those who prefer to work with a Command Line Interface</strong> (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB4 can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <a href="#quick-start">Section 2, &#8220;Quick Start&#8221;</a> to get started. Enjoy!</p>
 </div>
 </div>
 </div>
@@ -73,15 +70,6 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 <div class="ulist">
 <ul>
 <li>
-<p><strong><code>list</code></strong> : lists all contacts</p>
-</li>
-<li>
-<p><strong><code>add</code></strong><code>n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code> : adds a contact named <code>John Doe</code> to the Address Book.</p>
-</li>
-<li>
-<p><strong><code>delete</code></strong><code>3</code> : deletes the 3rd contact shown in the current list</p>
-</li>
-<li>
 <p><strong><code>exit</code></strong> : exits the app</p>
 </li>
 </ul>
@@ -105,278 +93,89 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 <div class="ulist">
 <ul>
 <li>
-<p>Words in <code>UPPER_CASE</code> are the parameters to be supplied by the user e.g. in <code>add n/NAME</code>, <code>NAME</code> is a parameter which can be used as <code>add n/John Doe</code>.</p>
+<p><code>&lt;&gt;</code> denotes compulsory field</p>
 </li>
 <li>
-<p>Items in square brackets are optional e.g <code>n/NAME [t/TAG]</code> can be used as <code>n/John Doe t/friend</code> or as <code>n/John Doe</code>.</p>
+<p><code>[]</code> denotes optional field</p>
 </li>
 <li>
-<p>Items with <code>…</code>​ after them can be used multiple times including zero times e.g. <code>[t/TAG]&#8230;&#8203;</code> can be used as <code>&#160;</code> (i.e. 0 times), <code>t/friend</code>, <code>t/friend t/family</code> etc.</p>
+<p><code>||</code> denotes flag</p>
 </li>
 <li>
-<p>Parameters can be in any order e.g. if the command specifies <code>n/NAME p/PHONE_NUMBER</code>, <code>p/PHONE_NUMBER n/NAME</code> is also acceptable.</p>
+<p><code>{}</code> denotes keystroke</p>
+</li>
+<li>
+<p><code>&#8230;&#8203;</code> denotes variable arguments</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="viewing-help-code-help-code"><a class="link" href="#viewing-help-code-help-code">3.1. Viewing help : <code>help</code></a></h3>
+<h3 id="manage-attractions"><a class="link" href="#manage-attractions">3.1. Manage attractions:</a></h3>
+<div class="sect3">
+<h4 id="add-attractions-code-add-code"><a class="link" href="#add-attractions-code-add-code">3.1.1. Add attractions: <code>add</code></a></h4>
 <div class="paragraph">
-<p>Format: <code>help</code></p>
+<p>Add an attraction by name.<br>
+Format: <code>add &lt;attraction&gt;</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="delete-attractions-code-delete-code"><a class="link" href="#delete-attractions-code-delete-code">3.1.2. Delete attractions: <code>delete</code></a></h4>
+<div class="paragraph">
+<p>Delete an attraction by name.<br>
+Format: <code>delete &lt;attraction&gt;</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="update-information-of-attraction-code-update-code"><a class="link" href="#update-information-of-attraction-code-update-code">3.1.3. Update information of attraction: <code>update</code></a></h4>
+<div class="paragraph">
+<p>Updates the information <code>&lt;tag&gt;</code> with <code>&lt;value&gt;</code> about the attraction with <code>&lt;name&gt;</code>.<br>
+Format: <code>update &lt;attraction&gt; &lt;tag&gt; &lt;value&gt;</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="shutdown-attraction-code-shutdown-code"><a class="link" href="#shutdown-attraction-code-shutdown-code">3.1.4. Shutdown attraction: <code>shutdown</code></a></h4>
+<div class="paragraph">
+<p>Close the attraction for the day. Display statistics for the ride on that day.<br>
+Format: <code>shutdown &lt;attraction&gt;</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="open-attraction-code-open-code"><a class="link" href="#open-attraction-code-open-code">3.1.5. Open attraction: <code>open</code></a></h4>
+<div class="paragraph">
+<p>Open the attraction for the day. Display statistics for the ride on that day.<br>
+Format: <code>open &lt;attraction&gt;</code></p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-a-person-code-add-code"><a class="link" href="#adding-a-person-code-add-code">3.2. Adding a person: <code>add</code></a></h3>
+<h3 id="user-help-and-accessbility"><a class="link" href="#user-help-and-accessbility">3.2. User help and accessbility:</a></h3>
+<div class="sect3">
+<h4 id="viewing-help-code-help-code"><a class="link" href="#viewing-help-code-help-code">3.2.1. Viewing help: <code>help</code></a></h4>
 <div class="paragraph">
-<p>Adds a person to the address book<br>
-Format: <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]&#8230;&#8203;</code></p>
+<p>Display short summary of important commands if <code>option</code> was not supplied. Displays a full list of important commands
+with a more detailed description if more is supplied as an <code>option</code>. If a specific command is supplied as <code>option</code>, show
+greater detail of the specified command. If invalid <code>option</code> is specified, will show default help message.<br>
+Format: <code>help [option]</code></p>
 </div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-A person can have any number of tags (including 0)
-</td>
-</tr>
-</table>
 </div>
+<div class="sect3">
+<h4 id="history-of-previously-inputted-commands-code-history-code"><a class="link" href="#history-of-previously-inputted-commands-code-history-code">3.2.2. History of previously inputted commands: <code>history</code></a></h4>
 <div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code></p>
-</li>
-<li>
-<p><code>add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal</code></p>
-</li>
-</ul>
+<p>Display previously inputted commands during this session. Inputted
+commands from the past are logged into the system. To view/start a
+query on commands, specify the <code>find</code> flag with the appropriate find
+arguments. If invalid arguments are passed, the error handling will be
+done by <code>find</code>.<br>
+Format: <code>history |find| [findargs&#8230;&#8203;]</code></p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="listing-all-persons-code-list-code"><a class="link" href="#listing-all-persons-code-list-code">3.3. Listing all persons : <code>list</code></a></h3>
+<div class="sect3">
+<h4 id="undoing-commands-code-undo-code"><a class="link" href="#undoing-commands-code-undo-code">3.2.3. Undoing commands: <code>undo</code></a></h4>
 <div class="paragraph">
-<p>Shows a list of all persons in the address book.<br>
-Format: <code>list</code></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="editing-a-person-code-edit-code"><a class="link" href="#editing-a-person-code-edit-code">3.4. Editing a person : <code>edit</code></a></h3>
-<div class="paragraph">
-<p>Edits an existing person in the address book.<br>
-Format: <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;&#8203;</code></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Edits the person at the specified <code>INDEX</code>. The index refers to the index number shown in the displayed person list. The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
-</li>
-<li>
-<p>At least one of the optional fields must be provided.</p>
-</li>
-<li>
-<p>Existing values will be updated to the input values.</p>
-</li>
-<li>
-<p>When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.</p>
-</li>
-<li>
-<p>You can remove all the person&#8217;s tags by typing <code>t/</code> without specifying any tags after it.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>edit 1 p/91234567 e/johndoe@example.com</code><br>
-Edits the phone number and email address of the 1st person to be <code>91234567</code> and <code>johndoe@example.com</code> respectively.</p>
-</li>
-<li>
-<p><code>edit 2 n/Betsy Crower t/</code><br>
-Edits the name of the 2nd person to be <code>Betsy Crower</code> and clears all existing tags.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="locating-persons-by-name-code-find-code"><a class="link" href="#locating-persons-by-name-code-find-code">3.5. Locating persons by name: <code>find</code></a></h3>
-<div class="paragraph">
-<p>Finds persons whose names contain any of the given keywords.<br>
-Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>The search is case insensitive. e.g <code>hans</code> will match <code>Hans</code></p>
-</li>
-<li>
-<p>The order of the keywords does not matter. e.g. <code>Hans Bo</code> will match <code>Bo Hans</code></p>
-</li>
-<li>
-<p>Only the name is searched.</p>
-</li>
-<li>
-<p>Only full words will be matched e.g. <code>Han</code> will not match <code>Hans</code></p>
-</li>
-<li>
-<p>Persons matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>find John</code><br>
-Returns <code>john</code> and <code>John Doe</code></p>
-</li>
-<li>
-<p><code>find Betsy Tim John</code><br>
-Returns any person having names <code>Betsy</code>, <code>Tim</code>, or <code>John</code></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="deleting-a-person-code-delete-code"><a class="link" href="#deleting-a-person-code-delete-code">3.6. Deleting a person : <code>delete</code></a></h3>
-<div class="paragraph">
-<p>Deletes the specified person from the address book.<br>
-Format: <code>delete INDEX</code></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Deletes the person at the specified <code>INDEX</code>.</p>
-</li>
-<li>
-<p>The index refers to the index number shown in the displayed person list.</p>
-</li>
-<li>
-<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>list</code><br>
-<code>delete 2</code><br>
-Deletes the 2nd person in the address book.</p>
-</li>
-<li>
-<p><code>find Betsy</code><br>
-<code>delete 1</code><br>
-Deletes the 1st person in the results of the <code>find</code> command.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">3.7. Selecting a person : <code>select</code></a></h3>
-<div class="paragraph">
-<p>Selects the person identified by the index number used in the displayed person list.<br>
-Format: <code>select INDEX</code></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Selects the person and loads the Google search page the person at the specified <code>INDEX</code>.</p>
-</li>
-<li>
-<p>The index refers to the index number shown in the displayed person list.</p>
-</li>
-<li>
-<p>The index <strong>must be a positive integer</strong> <code>1, 2, 3, &#8230;&#8203;</code></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>list</code><br>
-<code>select 2</code><br>
-Selects the 2nd person in the address book.</p>
-</li>
-<li>
-<p><code>find Betsy</code><br>
-<code>select 1</code><br>
-Selects the 1st person in the results of the <code>find</code> command.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">3.8. Listing entered commands : <code>history</code></a></h3>
-<div class="paragraph">
-<p>Lists all the commands that you have entered in reverse chronological order.<br>
-Format: <code>history</code></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Pressing the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> arrows will display the previous and next input respectively in the command box.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">3.9. Undoing previous command : <code>undo</code></a></h3>
-<div class="paragraph">
-<p>Restores the address book to the state before the previous <em>undoable</em> command was executed.<br>
+<p>Undo previous command during current session.<br>
 Format: <code>undo</code></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Undoable commands: those commands that modify the address book&#8217;s content (<code>add</code>, <code>delete</code>, <code>edit</code> and <code>clear</code>).</p>
-</div>
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -403,10 +202,10 @@ The <code>undo</code> command fails as there are no undoable commands executed p
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">3.10. Redoing the previously undone command : <code>redo</code></a></h3>
+<div class="sect3">
+<h4 id="redoing-previously-undone-commands-code-redo-code"><a class="link" href="#redoing-previously-undone-commands-code-redo-code">3.2.4. Redoing previously undone commands: <code>redo</code></a></h4>
 <div class="paragraph">
-<p>Reverses the most recent <code>undo</code> command.<br>
+<p>Reverse the previously undone commands during current session.<br>
 Format: <code>redo</code></p>
 </div>
 <div class="paragraph">
@@ -435,31 +234,71 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">3.11. Clearing all entries : <code>clear</code></a></h3>
+<div class="sect3">
+<h4 id="autocomplete-suggest-code-tab-code"><a class="link" href="#autocomplete-suggest-code-tab-code">3.2.5. Autocomplete/Suggest: <code>{tab}</code></a></h4>
 <div class="paragraph">
-<p>Clears all entries from the address book.<br>
-Format: <code>clear</code></p>
+<p>Non-tech savvy users wouldn’t need to remember commands and can
+just use <code>tab</code> s to complete their sentences, or get suggestions on what
+commands start with their specified prefix.<br>
+Format: <code>{tab}</code></p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">3.12. Exiting the program : <code>exit</code></a></h3>
-<div class="paragraph">
-<p>Exits the program.<br>
-Format: <code>exit</code></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.13. Saving the data</a></h3>
-<div class="paragraph">
-<p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
-There is no need to save manually.</p>
+<div class="sect3">
+<h4 id="ui-to-better-display-rides-information"><a class="link" href="#ui-to-better-display-rides-information">3.2.6. UI to better display rides information</a></h4>
+
 </div>
 </div>
 <div class="sect2">
-<h3 id="encrypting-data-files-code-coming-in-v2-0-code"><a class="link" href="#encrypting-data-files-code-coming-in-v2-0-code">3.14. Encrypting data files <code>[coming in v2.0]</code></a></h3>
+<h3 id="view-the-information-of-a-ride"><a class="link" href="#view-the-information-of-a-ride">3.3. View the information of a ride:</a></h3>
+<div class="sect3">
+<h4 id="viewing-all-available-attractions-code-viewall-code"><a class="link" href="#viewing-all-available-attractions-code-viewall-code">3.3.1. Viewing all available attractions: <code>viewall</code></a></h4>
 <div class="paragraph">
-<p><em>{explain how the user can enable/disable data encryption}</em></p>
+<p>Display all available attractions in a list according to the number of
+people that have taken the ride for the day in alphanumeric order if
+optional fields are not specified. <code>status</code> field specifies whether the user
+want to view opened or closed rides. <code>Order</code> field specifies whether the
+user want to view the rides in ascending or descending alphanumeric
+order.<br>
+Format: <code>viewall [status] [order]</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="view-detailed-information-of-a-specific-ride-code-view-code"><a class="link" href="#view-detailed-information-of-a-specific-ride-code-view-code">3.3.2. View detailed information of a specific ride: <code>view</code></a></h4>
+<div class="paragraph">
+<p>Display all available information about a single ride.<br>
+Format: <code>view &lt;name&gt;</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="quick-view-information-of-top-five-most-frequented-rides-code-quickview-code"><a class="link" href="#quick-view-information-of-top-five-most-frequented-rides-code-quickview-code">3.3.3. Quick view information of top five most frequented rides: <code>quickview</code></a></h4>
+<div class="paragraph">
+<p>Quick view information of the top 5 most frequented rides in the park if
+optional field is empty.<br>
+Format: <code>quickview [order]</code></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="storage-data-management"><a class="link" href="#storage-data-management">3.4. Storage/data management:</a></h3>
+<div class="sect3">
+<h4 id="filter-code-filter-code"><a class="link" href="#filter-code-filter-code">3.4.1. Filter: <code>filter</code></a></h4>
+<div class="paragraph">
+<p>Display all attractions that fits the condition in a table<br>
+Format: <code>filter &lt;tag&gt; &lt;condition&gt;</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="find-a-particular-attraction-code-find-code"><a class="link" href="#find-a-particular-attraction-code-find-code">3.4.2. Find a particular attraction: <code>find</code></a></h4>
+<div class="paragraph">
+<p>Find the attractions that the user needs to check on. Case insensitive.<br>
+Format: <code>find &lt;attraction&gt;</code></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="exit-code-exit-code"><a class="link" href="#exit-code-exit-code">3.5. Exit: <code>exit</code></a></h3>
+<div class="paragraph">
+<p>Format: <code>exit</code></p>
 </div>
 </div>
 </div>
@@ -476,47 +315,61 @@ There is no need to save manually.</p>
 <div class="sect1">
 <h2 id="command-summary"><a class="link" href="#command-summary">5. Command Summary</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="provided"><a class="link" href="#provided">5.1. Provided</a></h3>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Add</strong> <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]&#8230;&#8203;</code><br>
-e.g. <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague</code></p>
+<p><strong>Add</strong>: <code>add &lt;attraction&gt;</code></p>
 </li>
 <li>
-<p><strong>Clear</strong> : <code>clear</code></p>
+<p><strong>Delete</strong>: <code>delete &lt;attraction&gt;</code></p>
 </li>
 <li>
-<p><strong>Delete</strong> : <code>delete INDEX</code><br>
-e.g. <code>delete 3</code></p>
+<p><strong>Exit</strong>: <code>exit</code></p>
 </li>
 <li>
-<p><strong>Edit</strong> : <code>edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;&#8203;</code><br>
-e.g. <code>edit 2 n/James Lee e/jameslee@example.com</code></p>
+<p><strong>Find</strong>: <code>find &lt;attraction&gt;</code></p>
 </li>
 <li>
-<p><strong>Find</strong> : <code>find KEYWORD [MORE_KEYWORDS]</code><br>
-e.g. <code>find James Jake</code></p>
+<p><strong>Help</strong>: <code>help [option]</code></p>
 </li>
 <li>
-<p><strong>List</strong> : <code>list</code></p>
+<p><strong>History</strong>: <code>history |find| [findargs&#8230;&#8203;]</code></p>
 </li>
 <li>
-<p><strong>Help</strong> : <code>help</code></p>
+<p><strong>Undo</strong>: <code>undo</code></p>
 </li>
 <li>
-<p><strong>Select</strong> : <code>select INDEX</code><br>
-e.g.<code>select 2</code></p>
-</li>
-<li>
-<p><strong>History</strong> : <code>history</code></p>
-</li>
-<li>
-<p><strong>Undo</strong> : <code>undo</code></p>
-</li>
-<li>
-<p><strong>Redo</strong> : <code>redo</code></p>
+<p><strong>Redo</strong>: <code>redo</code></p>
 </li>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-09-18 15:01:39 UTC</div></div></div></body></html>
+<div class="sect2">
+<h3 id="added"><a class="link" href="#added">5.2. Added</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Update</strong>: <code>update &lt;attraction&gt; &lt;tag&gt; &lt;value&gt;</code></p>
+</li>
+<li>
+<p><strong>Shutdown</strong>: <code>shutdown &lt;attraction&gt;</code></p>
+</li>
+<li>
+<p><strong>View</strong>: <code>view &lt;name&gt;</code></p>
+</li>
+<li>
+<p><strong>Quickview</strong>: <code>quickview</code></p>
+</li>
+<li>
+<p><strong>Filter</strong>: <code>filter &lt;tag&gt; &lt;condition&gt;</code></p>
+</li>
+<li>
+<p><strong>tab</strong>: <code>{tab}</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-09-18 15:39:40 UTC</div></div></div></body></html>
