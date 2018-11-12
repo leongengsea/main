@@ -4,6 +4,8 @@ import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -28,6 +30,7 @@ public class CommandBox extends UiPart<Region> {
 
     public static final String ERROR_STYLE_CLASS = "error";
     private static final String FXML = "CommandBox.fxml";
+    private static final int CHARACTER_LIMIT = 250;
 
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
     private final Logic logic;
@@ -44,6 +47,25 @@ public class CommandBox extends UiPart<Region> {
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
         commandTextField.caretPositionProperty().addListener((unused1) -> updateCaretPosition());
+
+        //Directly taken from
+        //https://stackoverflow.com/questions/22714268/how-to-limit-the-amount-of-characters-a-javafx-textfield/31161519
+        commandTextField.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                                Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than CHARACTER_LIMIT
+                    if (commandTextField.getText().length() >= CHARACTER_LIMIT) {
+
+                        // if it's 11th character then just setText to previous
+                        // one
+                        commandTextField.setText(commandTextField.getText().substring(0, CHARACTER_LIMIT));
+                    }
+                }
+            }
+        });
+
         historySnapshot = logic.getHistorySnapshot();
 
         registerAsAnEventHandler(this);

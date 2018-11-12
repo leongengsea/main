@@ -30,7 +30,7 @@ public class ShutDownCommand extends Command {
     public static final String COMMAND_WORD = "shutdown";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shutdown the ride identified by index.\n "
-            + "Parameters: INDEX\n"
+            + "Parameters: INDEX (Must be a positive integer that is not larger than the size of the ride list)\n"
             + "Example: " + COMMAND_WORD + " 3";
 
     public static final String MESSAGE_SHUTDOWN_RIDE_SUCCESS = "Ride is shut down: %1$s";

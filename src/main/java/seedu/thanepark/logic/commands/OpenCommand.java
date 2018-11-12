@@ -30,7 +30,7 @@ public class OpenCommand extends Command {
     public static final String COMMAND_WORD = "open";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Open the ride identified by index.\n "
-            + "Parameters: INDEX\n"
+            + "Parameters: INDEX (Must be a positive integer that is not larger than the size of the ride list)\n"
             + "Example: " + COMMAND_WORD + " 2";
 
     public static final String MESSAGE_OPEN_RIDE_SUCCESS = "Ride is open: %1$s";

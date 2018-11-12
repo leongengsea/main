@@ -12,7 +12,7 @@ public class Maintenance implements NumericAttribute {
             "Maintenance should only contain positive integers with at least 1 digit long"
                    + " and should be less than 1 billion";
     public static final String MAINTENANCE_VALIDATION_REGEX = "\\d+";
-    private Date lastMaintenanceDate;
+    private final Date lastMaintenanceDate;
 
     /**
      * Constructs a {@code Maintenance}.
@@ -36,10 +36,6 @@ public class Maintenance implements NumericAttribute {
 
     public int getValue() {
         return lastMaintenanceDate.getDays();
-    }
-
-    public void setValue(int value) {
-        lastMaintenanceDate = new Date(value);
     }
 
     /**

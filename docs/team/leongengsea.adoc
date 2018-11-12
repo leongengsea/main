@@ -27,8 +27,8 @@ easily.
 
 == Summary of contributions
 
-* *Major enhancement*: added *the ability to open and shutdown rides in ThanePark*
-** What it does: allows the user to open and shutdown rides easily.
+* *Major enhancement*: Added *the ability to open and shutdown rides in ThanePark*
+** It allows the user to open and shutdown rides easily.
 ** Justification: This feature improves the product significantly because a user can open/shutdown rides with a single
    command.
 ** Highlights: This enhancement introduces a new enum class, `Status`. It allows the user to know whether the rides are
@@ -39,7 +39,7 @@ easily.
 * *Minor enhancement*: Refactor `add`, `delete` and `update` commands.
 
 * *Code contributed*: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=leongengsea[Functional
-   code]]
+   code and test code]]
 
 * *Other contributions*:
 

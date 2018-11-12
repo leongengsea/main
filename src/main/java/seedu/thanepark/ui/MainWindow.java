@@ -175,9 +175,10 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Handle request for help with level of detail specified by {@param event}
      */
-    public void handleHelp(ShowHelpRequestEvent event) throws AccessibilityException {
-        if (event.isSummarized()) {
+    private void handleHelp(ShowHelpRequestEvent event) throws AccessibilityException {
+        if (event.isRequestSummarized()) {
             browserPanel.loadDefaultPage();
+            rideListPanel.unselect();
         } else {
             showHelpWindow();
         }

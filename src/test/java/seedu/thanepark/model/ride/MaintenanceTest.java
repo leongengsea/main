@@ -1,6 +1,5 @@
 package seedu.thanepark.model.ride;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -59,13 +58,5 @@ public class MaintenanceTest {
         assertTrue(Maintenance.isValidMaintenance("0")); // smallest acceptable integer
         assertTrue(Maintenance.isValidMaintenance("1")); // exactly 1 numbers
         assertTrue(Maintenance.isValidMaintenance("9999")); // largest acceptable integer
-    }
-
-    @Test
-    public void setsCorrectValue() {
-        Maintenance firstMaintenance = new Maintenance("100");
-        Maintenance secondMaintenance = new Maintenance("50");
-        firstMaintenance.setValue(50);
-        assertEquals(firstMaintenance, secondMaintenance);
     }
 }

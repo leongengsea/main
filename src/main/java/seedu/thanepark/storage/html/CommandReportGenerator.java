@@ -1,4 +1,4 @@
-package seedu.thanepark.commons.util;
+package seedu.thanepark.storage.html;
 
 import java.util.List;
 

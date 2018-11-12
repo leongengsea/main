@@ -13,7 +13,7 @@ public class WaitTime implements NumericAttribute {
             "Waiting time should only contain positive integers with at least 1 digit long, "
             + "and should be less than 1 billion";
     public static final String WAIT_TIME_VALIDATION_REGEX = "\\d+";
-    private int value;
+    private final int value;
 
     /**
      * Constructs a {@code WaitTime}.
@@ -36,10 +36,6 @@ public class WaitTime implements NumericAttribute {
 
     public int getValue() {
         return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     /**

@@ -7,5 +7,4 @@ public interface NumericAttribute {
 
     int getValue();
 
-    void setValue(int value);
 }

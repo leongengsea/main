@@ -42,7 +42,7 @@ public class UpdateCommand extends Command {
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_MAINTENANCE + "MAINTENANCE] "
             + "[" + PREFIX_WAITING_TIME + "WAITING_TIME] "
-            + "[" + PREFIX_ZONE + "ADDRESS] "
+            + "[" + PREFIX_ZONE + "ZONE] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_MAINTENANCE + "90 "

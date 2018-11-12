@@ -23,7 +23,7 @@ public class ShowHelpRequestEvent extends BaseEvent {
         return getClass().getSimpleName();
     }
 
-    public boolean isSummarized() {
+    public boolean isRequestSummarized() {
         return isSummarized;
     }
 

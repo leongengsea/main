@@ -24,7 +24,7 @@ public class AddCommand extends Command {
             + PREFIX_NAME + "NAME "
             + PREFIX_MAINTENANCE + "MAINTENANCE "
             + PREFIX_WAITING_TIME + "WAITING TIME "
-            + PREFIX_ZONE + "ADDRESS "
+            + PREFIX_ZONE + "ZONE "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "Transformers "

@@ -1,4 +1,4 @@
-package seedu.thanepark.commons.util;
+package seedu.thanepark.storage.html;
 
 import static j2html.TagCreator.attrs;
 import static j2html.TagCreator.body;
@@ -28,6 +28,8 @@ import java.util.Locale;
 
 import j2html.TagCreator;
 import j2html.tags.ContainerTag;
+import seedu.thanepark.commons.util.FilePathToUrl;
+import seedu.thanepark.commons.util.FileUtil;
 import seedu.thanepark.model.logging.HtmlFormattable;
 
 /**

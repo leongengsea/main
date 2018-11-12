@@ -1,4 +1,4 @@
-package seedu.thanepark.commons.util;
+package seedu.thanepark.storage.html;
 
 import static j2html.TagCreator.div;
 import static j2html.TagCreator.h2;
@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import j2html.tags.ContainerTag;
+import seedu.thanepark.commons.util.FilePathToUrl;
+import seedu.thanepark.commons.util.FileUtil;
 import seedu.thanepark.model.ride.Ride;
 
 /**

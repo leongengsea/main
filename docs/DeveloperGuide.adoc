@@ -15,7 +15,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103-AY1819S1-W14-2/main
 
-By: `Team CS2103-W14-2`      Since: `Sep 2018`      Licence: `MIT`
+By: `CS2103-AY1819S1-W14-2`      Since: `Sep 2018`      Licence: `MIT`
 
 == Introduction
 Welcome to ThanePark!
@@ -270,6 +270,293 @@ The `Storage` component,
 
 This section describes some noteworthy details on how certain features are implemented.
 
+//tag::filter[]
+
+=== Filter Feature
+
+This section documents how `filter` is implemented and how it works.
+
+==== Current Implementation
+The execution of the `filter` command is simple and linear as the following activity diagram would show:
+
+.Activity Diagram for the Filter Feature
+image::FilterActivityDiagram.png[width="800"]
+
+The following sequence diagram will show how the `filter` command works: +
+
+.Sequence Diagram for the Filter Feature
+image::FilterSequenceDiagram.png[width="800"]
+
+The feature is implemented with the help of `FilterCommand` and `AttributePredicate` class. When the
+`ThaneParkParser` parses the user input and finds the filter command word `filter` it calls a new `FilterCommandParser` to
+parse the arguments from the user input.
+
+It checks if there are any of the maintenance or waiting time prefix in the arguments. If any of the prefixes are present,
+an `AttributePredicate` is created with the operator (‘<', ‘>’, '< =' or '> =' or '==') and the `NumericAttribute` they
+are checking for (ie `Maintenance` or `WaitTime`). The ``AttributePredicate``s are added to a list. The user can add any
+amount of predicates that they want, like 3 predicates e.g. `filter w/< 50 w/ > 5 m/>10` and the list would contain 3
+predicates and if the user decides to input only one predicate, the list will only contain one. +
+
+A new `RideContainsConditionPredicate` is instantiated with the list of ``AttributePredicate``s. The `FilterCommandParser` will
+return a new `FilterCommand` with the `RideContainsConditionPredicate` in it.
+
+The `LogicManager` executes the command, and the `RideContainsConditionPredicate` will be set as the predicate to filter
+the list of rides and it will check if the ride fulfils the required predicate(s). The `RideContainsConditionPredicate`
+will test if each ride fulfills the required conditions using this method:
+
+[source,java]
+----
+    public boolean test(Ride ride) {
+        return attributePredicates.stream().allMatch(p -> {
+            NumericAttribute attributeToTest = p.getAttribute();
+            NumericAttribute rideAttributeToTest = ride.getAttribute(attributeToTest);
+            return p.test(rideAttributeToTest);
+        });
+    }
+----
+So it should be pretty simple to add new ``NumericAttribute``s to the rides like ratings if you wish to with minimal
+changes to other classes, as long as relevant methods are added to `FilterCommandParser` to handle the new ``NumericAttribute``s.
+After all of the rides in the application are tested, a list of filtered rides would be returned and shown to the user.
+
+==== Design Considerations
+
+===== Aspect: Data structure to support filter commands
+* **Alternative 1(Current Choice):** Abstract attributes that contain numeric values into a separate class and create a
+AttributePredicate to test the attribute
+** Pros: More numeric attributes can be easily added  and minimal changes are required to filter new attributes
+** Cons: More classes would need to be implemented to handle this feature
+
+* **Alternative 2:** Give the entire string condition to the RideContainsConditionPredicate to test.
+** Pros: Classes do not need to abstracted, and thus would be easier to implement
+** Cons: RideContainsConditionPredicate would carry out parsing functions which would make it less cohesive
+
+// end::filter[]
+
+=== Command Management Feature
+
+// tag::commandManagement[]
+==== Current Implementation
+
+The Command Management feature is responsible for making ThanePark application easier to use.
+It can be decomposed into the following segments: +
+
+* <<accessibility_help, *Help*>>
+* <<accessibility_autocomplete, *Autocomplete*>>
+* <<accessibility_history, *Command History retrieval*>>
+
+[#accessibility_help]
+===== Help
+The *help* mechanism is facilitated by the `ShowHelpRequestEvent`.
+When the user executes a `HelpCommand`, the required level of help is encoded in `ShowHelpRequest`.
+This event type is subscribed to by `MainWindow`, which will load the respective help page in the required window
+(`BrowserPanel` or `HelpWindow`). Most of these classes belong to the User Interface (UI) component.
+These interactions are illustrated in the class diagram below:
+
+.Class Diagram of help mechanism
+image::HelpClassDiagram.png[width="800"]
+
+[#accessibility_autocomplete]
+===== Autocomplete
+The *autocomplete* mechanism is facilitated by `SuggestCommand`.
+It extends `Command` and serves as a special kind of `Command` that cannot be directly invoked by the `LogicManager`.
+A new instance of `SuggestCommand` is created whenever `ThaneParkParser` fails to find a matching CommandWord,
+or when kbd:[TAB] is pressed inside the *Command Box*. See the 2 figures below:
+
+.Activity Diagram of user executing command
+image::AutocompleteSuggestActivityDiagram1.png[width="800"]
+
+.Activity Diagram of user pressing tab
+image::AutocompleteSuggestActivityDiagram2.png[width="800"]
+
+The application will then proceed with executing the `SuggestCommand`, which returns prefix-matched `Command` s.
+These matching `Command` s are reflected in both `CommandResult` and `ShowHelpRequestEvent`, which will in turn update
+`ResultDisplay` and `CommandBox` text. See figure below:
+
+.Activity Diagram of user pressing tab
+image::AutocompleteSuggestActivityDiagram3.png[width="800"]
+
+You can easily add other pattern matching heuristics such as `nearest word distance` by implementing the following interface, `PatternMatcher`:
+[source,java]
+----
+public interface PatternMatcher {
+    /**
+     * Matches a list of items as Strings against a given pattern.
+     */
+    public String[] matchPattern(String[] items, String pattern);
+}
+----
+A possible implementation of a prefix matcher is shown below:
+[source,java]
+----
+public class PrefixMatcher implements PatternMatcher {
+    private static final String PATTERN_PREFIX = "^%1$s.*";
+    /**
+     * Default constructor
+     */
+    public PrefixMatcher() {
+        ;
+    }
+
+    @Override
+    public String[] matchPattern(String[] items, String pattern) {
+        return Arrays.stream(items).filter(s
+            -> s.matches(String.format(PATTERN_PREFIX, pattern))).toArray(String[]::new);
+    }
+
+}
+----
+
+
+[#accessibility_history]
+===== History
+The *history* mechanism is facilitated by `CommandHistory` and `CommandsLogCenter`.
+`CommandHistory` maintains the history as a list of user inputs during the session,
+and interfaces with `CommandsLogCenter` to handle the retrieval and persistent storage
+of user inputs executed across sessions.
+
+Given below are 2 example usage scenarios to illustrate the behavior of the *history* mechanism.
+
+* Example scenario 1: User requests for current session's history. +
+Step 1. User executes `history`. +
+Step 2. The list of user inputs in the current session is retrieved from `CommandHistory`. +
+Step 3. A `NewResultAvailableEvent` is raised within the `Logic` component.
+Step 4. The result panel displays the list of user inputs upon notification by the event.
+
+* Example scenario 2: User requests for cumulative history. +
+
+When the cumulative history of all commands is requested through `history more` command, a `HTML` report is generated.
+The process of generating a `HTML` report upon execution of `history more` is illustrated in the Sequence Diagram below.
+
+.Sequence Diagram of HTML report generation since command
+image::HistorySequenceDiagram.png[width="800"]
+
+==== Design Considerations
+
+===== Aspect: Handling UI interactions in help
+
+* **Alternative 1 (current choice):** Subscribe `MainWindow` to `ShowHelpRequestEvent`.
+** Pros: Cohesive. Every `UI` component affected by `ShowHelpRequestEvent` are handled through `MainWindow`.
+** Cons: Difficult to implement. Interactions between `MainWindow` and its child `UI` components must be carefully handled.
+Easy to cause bugs if not handled appropriately.
+* **Alternative 2:** Subscribe `BrowserPanel`, `HelpWindow` and `RideListPanel` to `ShowHelpRequestEvent`.
+** Pros: Easy to implement. These `UI` components can directly perform whatever is required.
+** Cons: High dependency. When a modification to `ShowHelpRequestEvent` is required, all of these classes may need to be modified.
+
+===== Aspect: Handling autocomplete text replacement
+
+* **Alternative 1 (current choice):** Handle autocomplete text replacement through `SuggestCommandEvent`.
+** Pros: Flexible. Easy to modify text replacement behavior through `SuggestCommandEvent`. Can be used by
+both kbd:[Tab] and kbd:[Enter]. Open for extension to other keystrokes or actions that lead to autocompletion.
+** Cons: Difficult to implement as it requires some understanding of the `EventsCenter` and handling of the various
+Event types in the application.
+* **Alternative 2:** Handle autocomplete through the existing `NewResultAvailableEvent`.
+** Pros: Easy to implement. Can modify `NewResultAvailableEvent` to easily satisfy most requirements.
+** Cons: Difficult to extend. When modifying behavior of text autocompletion, modification of
+both `CommandBox` and `ResultDisplay` may be required.
+
+===== Aspect: Storing command history
+
+* **Alternative 1 (current choice):** Store every command entry in a separate xml file.
+** Pros: Flexible. Able to format the file with little constraint to meet storage requirements.
+** Cons: Low code reuse. Does not utilise the existing `LogsCenter` for ThanePark.
+* **Alternative 2:** Store command entries using the existing `LogsCenter` for ThanePark.
+** Pros: High code reuse. Developers know that all logging within the ThanePark is done by `LogsCenter`.
+** Cons: High dependency and difficult to implement. When a modification to `LogsCenter` is required,
+the modification of command history storage may be required. Additionally, the parsing of command history
+from the existing `LogsCenter` logs may require substantial modifications.
+
+// end::commandManagement[]
+
+// tag::viewstatus[]
+=== View Status Feature
+
+This section documents how `viewstatus` is being implemented.
+
+==== Current Implementation
+
+The view status feature is implemented with the help of `ViewStatusCommand` and `RideStatusPredicate` classes.
+As seen in the sequence diagram below, when the `ThaneParkParser` class parses the user input of `viewstatus`,
+it calls a new `ViewStatusCommandParser` to parse the arguments from the user input.
+
+.Sequence Diagram of the View Status feature
+image::ViewStatusSequenceDiagram.png[width="550"]
+
+.Activity Diagram of `ViewStatusCommandParser`
+image::ViewStatusActivityDiagram.png[width="550"]
+
+As seen in the diagram above, the `ViewStatusCommandParser` class checks the arguments for keywords relating to the status of the rides.
+If there are more than one strings found or the argument string is not one of the three statuses,
+it will throw a `ParseException`, letting the user know that the command format is wrong.
+Conversely, it will compare the argument with the statuses and create a `Status` enumeration.
+
+A new `RideStatusPredicate` is instantiated with the `Status` enumeration.
+The `ViewStatusCommandParser` will return a new `ViewStatusCommand` containing `RideStatusPredicate`.
+
+The `LogicManager` execute the command, and uses the `RideStatusPredicate` to filter the list of rides for rides that fulfill the required predicate(s).
+A list of filtered rides would be returned.
+
+==== Design Considerations
+
+===== Aspect: Data structure to support view status command
+* **Alternative 1(Current choice):** Handle checking of status by passing the `Status` enumeration to `RideStatusPredicate` to test.
+** Pros: Code is more cohesive as each class is more focused.
+** Cons: More classes are required to implement the check.
+
+* **Alternative 2:** Handle checking of status in ViewStatusCommand by using a lambda expression to express the predicate.
+** Pros: Easier to implement as less classes are needed.
+** Cons: Reduced modularity as predicate logic is not abstracted.
+
+// end::viewstatus[]
+
+
+// tag::open[]
+=== Open/Shutdown Feature
+This section documents how open/shutdown features are implemented and how they work. Note that `open` and `shutdown`
+features are very similar to each other.
+
+==== Current Implementation
+
+The `OpenActivityDiagram` below show the execution flow of `OpenCommand`:
+
+.Activity Diagram of `OpenCommand`
+image::OpenActivityDiagram.png[width="800"]
+
+The following sequence diagram will show how the open/shutdown feature works: +
+
+.Sequence Diagram for the Open Feature
+image::OpenSequenceDiagram.png[width="800"]
+
+
+As seen in the diagram above, the `open` function is implemented with the help of `OpenCommand` and
+`UpdateRideDescriptor` class. When the `ThaneParkParser` parses the user input and finds the open command word `open`,
+it calls a new `OpenCommandParser` to parse the arguments from the user input.
+
+Next, the `OpenCommandParser` will parse the arguments from the user input into an `index` and
+return a new `OpenCommand` with the `index` as the parameter.
+
+Finally, the `LogicManager` will execute the `open` command, and the `index` will be used to find the `ride` from the
+list.
+After that, the `open` command will change the status of the ride to `Open` by utilising the `UpdateRideDescriptor`
+class.
+
+
+==== Design Considerations
+
+===== Aspect: Data structure to support open/shutdown commands
+* **Alternative 1(Current choice):** Change the status of the ride inside the `open` command and include the
+    `UpdateRideDescriptor` in the `open` command as well.
+** Pros: This would be easier to implement as `UpdateRideDescriptor` class no need to abstracted out from the
+   `openCommand` class.
+
+** Cons: `UpdateRideDescriptor` will modify the status of rides inside the `openCommand` class which will make the
+   `openCommand` class less cohesive.
+
+* **Alternative 2:** Abstracting `UpdateRideDescriptor` into a separate class and modify the status of rides in the
+    separate class instead of `openCommand` class.
+** Pros: The `openCommand` will be more cohesive.
+** Cons: More classes would need to be implemented to modify the status of rides.
+// end::open[]
+
 // tag::undoredo[]
 === Undo/Redo feature
 ==== Current Implementation
@@ -349,241 +636,6 @@ image::UndoRedoActivityDiagram.png[width="800"]
 ** Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things.
 // end::undoredo[]
-
-//tag::filter[]
-
-=== Filter Feature
-
-This section documents how `filter` is implemented and how it works.
-
-==== Current Implementation
-The execution of the `filter` command is simple and linear as the following activity diagram would show:
-
-.Activity Diagram for the Filter Feature
-image::FilterActivityDiagram.png[width="800"]
-
-The following sequence diagram will show how the `filter` command works: +
-
-.Sequence Diagram for the Filter Feature
-image::FilterSequenceDiagram.png[width="800"]
-
-The feature is implemented with the help of `FilterCommand` and `AttributePredicate` class. When the
-`ThaneParkParser` parses the user input and finds the filter command word `filter` it calls a new `FilterCommandParser` to
-parse the arguments from the user input.
-
-It checks if there are any of the maintenance or waiting time prefix in the arguments. If any of the prefixes are present,
-an `AttributePredicate` is created with the operator (‘<', ‘>’, '< =' or '> =' or '==') and the `NumericAttribute` they
-are checking for (ie `Maintenance` or `WaitTime`). The ``AttributePredicate``s are added to a list. The user can add any
-amount of predicates that they want, like 3 predicates e.g. `filter w/< 50 w/ > 5 m/>10` and the list would contain 3
-predicates and if the user decides to input only one predicate, the list will only contain one. +
-
-A new `RideContainsConditionPredicate` is instantiated with the list of ``AttributePredicate``s. The `FilterCommandParser` will
-return a new `FilterCommand` with the `RideContainsConditionPredicate` in it.
-
-The `LogicManager` executes the command, and the `RideContainsConditionPredicate` will be set as the predicate to filter
-the list of rides and it will check if the ride fulfils the required predicate(s). The `RideContainsConditionPredicate`
-will test each ride using this method:
-
-[source,java]
-----
-    public boolean test(Ride ride) {
-        return attributePredicates.stream().allMatch(p -> {
-            NumericAttribute attributeToTest = p.getAttribute();
-            NumericAttribute rideAttributeToTest = ride.getAttribute(attributeToTest);
-            return p.test(rideAttributeToTest);
-        });
-    }
-----
-So it should be pretty simple to add new ``NumericAttribute``s to the rides like ratings if you wish to with minimal
-changes to other classes. After that a list of filtered rides would be returned after each ride is tested with the predicate.
-
-==== Design Considerations
-
-===== Aspect: Data structure to support filter commands
-* **Alternative 1(Current Choice):** Abstracting attributes that contain numeric values into a separate class and creating a
-AttributePredicate to test the attribute
-** Pros: More numeric attributes can be easily added  and minimal changes are required to filter new attributes
-** Cons: More classes would need to be implemented to handle this feature
-
-* **Alternative 2:** Gives the entire string condition to the RideContainsConditionPredicate to test.
-** Pros: Classes do not need to abstracted, and thus would be easier to implement
-** Cons: RideContainsConditionPredicate would carry out parsing functions which would make it less cohesive
-
-// end::filter[]
-
-=== Accessibility feature
-
-// tag::accessibility[]
-==== Current Implementation
-
-The accessibility feature is responsible for making ThanePark application easier to use.
-It can be decomposed into the following components: +
-
-* <<accessibility_help, *Help*>>
-* <<accessibility_autocomplete, *Autocomplete/Suggest*>>
-* <<accessibility_history, *Command History retrieval*>>
-* <<accessibility_UI, *UI changes*>>
-
-[#accessibility_help]
-===== Help
-The *help* mechanism is facilitated by the `ShowHelpRequestEvent`.
-When the user executes a `HelpCommand`, the required level of help is encoded in `ShowHelpRequest`.
-This event is subscribed to by `MainWindow`, which will load the respective help page in the required window
-(`BrowserPanel` or `HistoryWindow`). These interactions are illustrated in the class diagram below:
-
-.Class diagram of help mechanism
-image::AutocompleteSuggestActivityDiagram1.png[width="800"]
-
-[#accessibility_autocomplete]
-===== Autocomplete
-The *autocomplete/suggest* mechanism is facilitated by `SuggestCommand`.
-It extends `Command` and serves as a special kind of `Command` that cannot be directly invoked by the `LogicManager`.
-A new instance of `SuggestCommand` is created whenever `ThaneParkParser` fails to find a matching CommandWord,
-or when kbd:[TAB] is pressed inside the *Command Box*. See the 2 figures below:
-
-.Activity diagram of user executing command
-image::AutocompleteSuggestActivityDiagram1.png[width="800"]
-
-.Activity diagram of user pressing tab
-image::AutocompleteSuggestActivityDiagram2.png[width="800"]
-
-The application will then proceed with executing the `SuggestCommand`, which returns prefix-matched `Command` s.
-These matching `Command` s are reflected in both `CommandResult` and `ShowHelpRequestEvent`, which will in turn update
-`ResultDisplay` and `CommandBox` text. See figure below:
-
-.Activity diagram of user pressing tab
-image::AutocompleteSuggestActivityDiagram3.png[width="800"]
-
-[#accessibility_history]
-===== History
-The *history* mechanism is facilitated by `CommandHistory` and `CommandsLogCenter`.
-`CommandHistory` maintains the history as a list of user inputs during the session,
-and interfaces with `CommandsLogCenter` to handle the retrieval and persistent storage
-of user inputs executed across sessions.
-
-Given below are 2 example usage scenarios to illustrate the behavior of the *history* mechanism.
-
-* Example scenario 1: User requests for current session's history. +
-Step 1. User executes `history`. +
-Step 2. The list of user inputs in the current session is retrieved from `CommandHistory`. +
-Step 3. A `NewResultAvailableEvent` is raised within the `Logic` component.
-Step 4. The result panel displays the list of user inputs upon notification by the event.
-
-* Example scenario 2: User requests for cumulative history. +
-
-When the cumulative history of all commands is requested,
-
-==== Design Considerations
-
-===== Aspect: Handling kbd:[Tab] autocomplete
-
-* **Alternative 1 (current choice):** Handle autocomplete through events and `SuggestCommand`.
-** Pros: Flexible. Easy to modify event behaviors for `SuggestCommandEvent` and `NewResultAvailableEvent`. Modular design that
-can be easily reused to create other autocomplete features.
-** Cons: Difficult to implement as it requires some understanding of the `EventsCenter` and handling of the various
-Event types in the application.
-* **Alternative 2:** Handle everything in `CommandBox`.
-** Pros: Easy to implement.
-
-** Cons: Difficult to extend. When modifying behavior of `CommandBox` text autocompletion, may have to modify behavior
-for result listing of results in `ResultDisplay`.
-// end::accessibility[]
-
-// tag::viewstatus[]
-=== View Status Feature
-
-This section documents how `viewstatus` is being implemented.
-
-==== Current Implementation
-
-The view status feature is implemented with the help of `ViewStatusCommand` and `RideStatusPredicate` classes.
-As seen in the sequence diagram below, when the `ThaneParkParser` class parses the user input of `viewstatus`,
-it calls a new `ViewStatusCommandParser` to parse the arguments from the user input.
-
-.Sequence Diagram of the View Status feature
-image::ViewStatusSequenceDiagram.png[width="550"]
-
-.Activity Diagram of `ViewStatusCommandParser`
-image::ViewStatusActivityDiagram.png[width="550"]
-
-As seen in the diagram above, the `ViewStatusCommandParser` class checks the arguments for keywords relating to the status of the rides.
-If there are more than one strings found or the argument string is not one of the three statuses,
-it will throw a `ParseException`, letting the user know that the command format is wrong.
-Conversely, it will compare the argument with the statuses and create a `Status` enumeration.
-
-A new `RideStatusPredicate` is instantiated with the `Status` enumeration.
-The `ViewStatusCommandParser` will return a new `ViewStatusCommand` containing `RideStatusPredicate`.
-
-The `LogicManager` execute the command, and uses the `RideStatusPredicate` to filter the list of rides for rides that fulfill the required predicate(s).
-A list of filtered rides would be returned.
-
-==== Design Considerations
-
-===== Aspect: Data structure to support view status command
-* **Alternative 1(Current choice):** Handle checking of status by passing the `Status` enumeration to `RideStatusPredicate` to test.
-** Pros: Code is more cohesive as each class is more focused.
-** Cons: More classes are required to implement the check.
-
-* **Alternative 2:** Handle checking of status in ViewStatusCommand by using a lambda expression to express the predicate.
-** Pros: Easier to implement as less classes are needed.
-** Cons: Reduced modularity as predicate logic is not abstracted.
-
-// end::viewstatus[]
-
-// tag::open[]
-=== Open/Shutdown Feature
-This section documents how open/shutdown features are implemented and how they work. Note that `open` and `shutdown`
-features are very similar to each other.
-
-==== Current Implementation
-
-The `OpenActivityDiagram` below show the execution flow of `OpenCommand`:
-
-.Activity Diagram of `OpenCommand`
-image::OpenActivityDiagram.png[width="800"]
-
-The following sequence diagram will show how the open/shutdown feature works: +
-
-.Sequence Diagram for the Open Feature
-image::OpenSequenceDiagram.png[width="800"]
-
-
-As seen in the diagram above, the `open` function is implemented with the help of `OpenCommand` and
-`UpdateRideDescriptor` class. When the `ThaneParkParser` parses the user input and finds the open command word `open`,
-it calls a new `OpenCommandParser` to parse the arguments from the user input.
-
-Next, the `OpenCommandParser` will parse the arguments from the user input into an `index` and
-return a new `OpenCommand` with the `index` as the parameter.
-
-Finally, the `LogicManager` will execute the `open` command, and the `index` will be used to find the `ride` from the
-list.
-After that, the `open` command will change the status of the ride to `Open` by utilising the `UpdateRideDescriptor`
-class.
-
-
-==== Design Considerations
-
-===== Aspect: Data structure to support open/shutdown commands
-* **Alternative 1(Current choice):** Change the status of the ride inside the `open` command and include the
-    `UpdateRideDescriptor` in the `open` command as well.
-** Pros: This would be easier to implement as `UpdateRideDescriptor` class no need to abstracted out from the
-   `openCommand` class.
-
-** Cons: `UpdateRideDescriptor` will modify the status of rides inside the `openCommand` class which will make the
-   `openCommand` class less cohesive.
-
-* **Alternative 2:** Abstracting `UpdateRideDescriptor` into a separate class and modify the status of rides in the
-    separate class instead of `openCommand` class.
-** Pros: The `openCommand` will be more cohesive.
-** Cons: More classes would need to be implemented to modify the status of rides.
-// end::open[]
-
-// tag::dataencryption[]
-=== [Proposed] Data Encryption
-
-_{Explain here how the data encryption feature will be implemented}_
-
-// end::dataencryption[]
 
 === Logging
 
@@ -986,12 +1038,21 @@ Use case ends.
 +
 Use case ends.
 
-* 1aa. There is no substring match.
+* 1b. There is no substring match.
 +
 [none]
-** 1aa1. ThanePark shows warning message to user.
+** 1b1. ThanePark shows warning message to user.
 +
 Use case ends
+
+* 1c. User finds an attraction by the name of the zone that it is in and the tags it contains.
++
+[none]
+** 1c1. ThanePark shows a list of rides that matches the zone and the tags input by the user.
++
+Use case ends
+
+
 
 [discrete]
 === Use case: Help
@@ -1038,7 +1099,13 @@ Use case ends.
 
 *Extensions*
 
-none
+[none]
+* 1a. User requests for history report.
++
+[none]
+** 1a1. ThanePark generates and shows history report.
++
+Use case ends.
 
 [discrete]
 === Use case: Redo
@@ -1164,7 +1231,36 @@ Use case ends.
 Use case ends.
 
 [discrete]
-=== Use case: View attraction
+=== Use case: Maintain attraction
+*System*: ThanePark +
+*Actor* Operator +
+*MSS*
+
+1.  User closes an attraction for maintenance.
+2.  ThanePark sets the status of attraction to be under maintenance.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The attraction does not exist.
++
+[none]
+** 1a1. ThanePark shows an error message for closing the attraction for maintenance.
++
+Use case ends.
+
+[none]
+* 1b. The attraction is already under maintenance.
++
+[none]
+** 1b1. ThanePark shows error.
++
+Use case ends.
+
+[discrete]
+=== Use case: View a list of all attractions
 *System*: ThanePark +
 *Actor* All +
 *MSS*
@@ -1179,13 +1275,13 @@ Use case ends.
 none
 
 [discrete]
-=== Use case: View status of rides
+=== Use case: View a list of rides that matches the given ride status
 *System*: ThanePark +
 *Actor* All +
 *MSS*
 
 1.  User requests to view attractions by status.
-2.  ThanePark shows a summarized view sorted by queue status.
+2.  ThanePark shows all attractions that matches the ride status.
 +
 Use case ends.
 
@@ -1196,7 +1292,7 @@ none
 [discrete]
 === Use case: Filter
 *System*: ThanePark +
-*Actor* All +
+*Actor* Manager/Operator +
 *MSS*
 
 1.  User requests for a filter query.
@@ -1205,8 +1301,21 @@ none
 Use case ends.
 
 *Extensions*
+[none]
+* 1a. There is no rides that matches the given condition in the query.
++
+[none]
+** 1a1. ThanePark shows warning message to user.
++
+Use case ends
 
-none
+* 1b. The filter query has multiple conditions.
++
+[none]
+** 1b1. ThanePark shows a list of rides that matches the conditions from the user.
++
+Use case ends
+
 
 [discrete]
 === Use case: Autocomplete

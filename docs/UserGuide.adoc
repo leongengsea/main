@@ -50,9 +50,16 @@ similar to below:
 
 image::Ui.png[width="800"]
 
+[TIP]
+The bar at the top of the window allows you to access `Help` or `About`. The `About` option on the navigation bar opens an About Us window.
+
 [WARNING]
-You will not be able to customise the image for rides. This feature will only be implemented in `v2.0`.
-Similarly, the `About` button on the navigation bar opens a window to the teams' profile page.
+You will not be able to customise the image for rides. This feature will only be implemented in `v2.0`. +
+Additionally, note that you may not enter more than 250 characters inside the `CommandBox`.
+Any character past the 250th will be forcefully truncated. This is to guard against abuse. +
+Also note that the waiting time and maintenance dates are not live, they are static and require manual updates.
+Maintenance dates will update only when a command is executed. Maintenance dates do not update when ThanePark is restarted.
+In v2.0 this updating process will be automated.
 
 
 Congratulations! You have successfully set up ThanePark!
@@ -83,7 +90,7 @@ Example: `help [more]`
 * Items in curly brackets `{}` denotes keystroke. +
 Example: `{tab}` is the kbd:[TAB] keystroke.
 * Items ending with ellipses `...` denotes variable number of arguments. +
-Example: `history [findargs...]`
+Example: `filter <tag> <condition> [[tag] [condition]...]`
 
 * Parameters with prefix `/` can be in any order +
 Example: if the command specifies n/name p/zone, p/zone n/name is also acceptable.
@@ -99,14 +106,21 @@ This section contains all commands related to managing attractions.
 ==== Adding attractions: `add`
 
 Adds an attraction by name with the information. +
-Format: ``add `<attraction>` `<maintenance>` `<waitTime>` `<zone>` [tag(s)]``
+Format: ``add `<n/attraction>` `<m/maintenance>` `<w/waitTime>` `<z/zone>` [t/tag(s)]``
 
 A ride can have any number of tags (including 0). +
 
+[NOTE]
+Maintenance and waiting time should only contain positive integers with at least 1 digit long and should be less than
+1 billion.
+
+[WARNING]
+The length for zone and tag(s) field exceeds 30 characters is undefined behaviour.
+
 Examples:
 
-* add n/Transformers m/1 w/30 a/John street, block 123, #01-01
-* add n/The Mummy m/3 w/45 a/311, Clementi Ave 2, #02-25 t/3D t/indoor
+* add n/Transformers m/1 w/30 z/John street, block 123, #01-01
+* add n/The Mummy m/3 w/45 z/311, Clementi Ave 2, #02-25 t/3D t/indoor
 
 ==== Deleting attractions: `delete`
 
@@ -133,18 +147,68 @@ Examples:
 
 ==== Updating information of attraction: `update`
 
-Updates the information `<tag>` with `<value>` about the ride with `<index>`. +
-Format: `update <index> <tag> <value>`
+Updates the details of the ride identified by the index number used in the displayed ride list.
+
+[WARNING]
+The length for zone and tag(s) field exceeds 30 characters is undefined behaviour.
+
+Format: `update <index> <prefix/value>`
+
+Parameters: INDEX (must be a positive integer) [n/NAME] [m/MAINTENANCE] [w/WAITING_TIME] [z/ZONE] [t/TAG].
+
+Examples:
+
+* `update 1 m/90` +
+  Updates the 1st ride in ThanePark.
+
+* `update 2 m/90 w/60` +
+  Updates the 2nd ride in ThanePark.
+
+[NOTE]
+This command cannot update the waiting time and maintenance field when the ride is not open.
+
+[NOTE]
+Maintenance and waiting time should only contain positive integers with at least 1 digit long and should be less than
+1 billion.
 
 ==== Shutting down attraction: `shutdown`
 
 Closes the ride for the day. Display statistics for the ride on that day. +
 Format: `shutdown <index>`
 
+[NOTE]
+This command will reset the waiting time field to zero.
+
+|===
+a|
+Example : `shutdown 1`
+
+* `shutdown 1` +
+  Closes the 1st ride in ThanePark.
+
+As seen in the diagram below, the status of the 1st ride changes from `open` to `shutdown` within the red box after
+`shutdown 1` is executed.
+
+.Before executing `shutdown 1`
+image::./ui_screenshots/shutdown-example-1.png[width="600"]
+
+.After executing `shutdown 1`
+image::./ui_screenshots/shutdown-example-2.png[width="600"]
+
+After `shutdown 1` is executed, the name, status, days since last maintenance, waiting time, zone and tags for
+the ride is displayed.
+
+|===
+
 ==== Opening attraction: `open`
 
 Opens the ride for the day. Display statistics for the ride on that day. +
 Format: `open <index>`
+
+Example:
+
+* `open 2` +
+  Opens the 2nd ride in ThanePark.
 
 [NOTE]
 This command also resets the waiting time field to zero.
@@ -165,42 +229,46 @@ This command also resets both waiting time and maintenance fields to zero.
 Clears all entries from the address book. +
 Format: `clear`
 
-=== Manage commands
+=== Manage Commands
 
 This section contains all commands related to managing commands.
 
 // tag::help[]
 ==== Viewing help: `help`
 
-Display short summary of important commands. A summarized help
-sheet showing command syntax without details should appear as shown below. +
+Displays short summary of important commands. You should see a similar-looking summarized help
+sheet as shown below. +
 
-image::ui_screenshots/help-example-1.png[width="400"]
+image::ui_screenshots/help-example-1.png[width="800"]
 
 Format: `help`
 
 [NOTE]
-Extended usage of `help` command: `help [more]` or `help [commandWord]`. If provided `[commandWord]` is invalid,
-the default summarized help message will be shown.
-Any arguments beyond the 2nd position will be discarded and ignored.
+Extended usage of `help` command: If you want to see the full help manual, use `help [more]`.
+If you want to see the full help for a specific `commandWord`, use `help [commandWord]`.
+Should you provide an invalid `[commandWord]`, you will be shown the default short help message.
+Please note that any arguments beyond the 2nd position will be discarded and ignored.
 
 [WARNING]
-Information provided in the short help only shows the rough syntax of commands. For full information,
-do refer to this User Guide. Also note that `help` will cause the currently selected `Ride` to be deselected.
+Please note that the short help only shows the rough syntax of commands. If you want the full help,
+do refer to this User Guide. You should also note that `help` will cause the currently selected `Ride` to be deselected.
 
+<<<
+
+[.white]
 |===
 a|
 Examples:
 
-* `help more`: Opens the help window to show full usage of ThanePark.
+* `help more`: Opens a help window that describes the usage of ThanePark. You should see something similar to the image below.
 
-image::ui_screenshots/help-example-2.png[width="600"]
+image::ui_screenshots/help-example-2.png[width="500"]
 
 a|
-* `help add`: Opens the help window and scrolls to `add` command word usage.
+* `help add`: Opens a help window and scrolls to `add` command word usage. You should see something similar to the image below.
 * `help add 1234`: Same as previous, the extra arguments are discarded and ignored.
 
-image::ui_screenshots/help-example-3.png[width="600"]
+image::ui_screenshots/help-example-3.png[width="500"]
 |===
 
 // end::help[]
@@ -212,11 +280,13 @@ Displays suggested list of commands when kbd:[TAB] is pressed. +
  +
 Format: kbd:[TAB]
 
+<<<
+
 // end::autocomplete1[]
 
 [WARNING]
+If you want to see common usage, skip to <<suggest_examples, examples>> to view common usage.
 The full functionality of suggesting commands can be quite heavy.
-Skip to <<suggest_examples, examples>> to view common usage.
 
 [NOTE]
 Extended usage of suggesting commands:
@@ -226,14 +296,14 @@ Extended usage of suggesting commands:
 |kbd:[TAB] a|
 * `CommandBox` contains half complete command
 * *Only 1* command word match to first prefix in `CommandBox` a|
-* Strip all text behind first prefix in `CommandBox`.
-* Replace prefix with matching command word in `CommandBox`.
-* Display matching command word in result panel.
+* Strips all text behind first prefix in `CommandBox`.
+* Replaces prefix with matching command word in `CommandBox`.
+* Displays matching command word in result panel.
 
 |kbd:[TAB] a|
 * `CommandBox` contains half complete command
 * *More than 1* command word match to first prefix in `CommandBox` a|
-* Display all matching command words in result panel.
+* Displays all matching command words in result panel.
 * No change in `CommandBox`.
 
 |kbd:[TAB] a|
@@ -248,27 +318,27 @@ Extended usage of suggesting commands:
 |kbd:[TAB] a|
 * `CommandBox` starts with a complete command word
 * *More than 1* command word match to first prefix in `CommandBox` a|
-* Display all matching command words in result panel.
+* Displays all matching command words in result panel.
 * No change in `CommandBox`.
 
 |kbd:[TAB] a|
 * `CommandBox` starts with a complete command word
 * *Only 1* command word match to first prefix in `CommandBox` a|
-* Strip all text behind command word in `CommandBox`.
+* Strips all text behind command word in `CommandBox`.
 * Command in `CommandBox` will not be executed.
 * Command word will be shown in result panel.
 
 |kbd:[ENTER] a|
 * `CommandBox` contains half complete command
 * *Only 1* command word match to first prefix in `CommandBox` a|
-* Strip all text behind first prefix in `CommandBox`.
-* Replace prefix with matching command word in `CommandBox`.
-* Display matching command word in result panel.
+* Strips all text behind first prefix in `CommandBox`.
+* Replaces prefix with matching command word in `CommandBox`.
+* Displays matching command word in result panel.
 
 |kbd:[ENTER] a|
 * `CommandBox` contains half complete command
 * *More than 1* command word match to first prefix in `CommandBox` a|
-* Display all matching command words in result panel.
+* Displays all matching command words in result panel.
 * Remove all text in `CommandBox`.
 
 |kbd:[ENTER] a|
@@ -286,6 +356,7 @@ Extended usage of suggesting commands:
 
 // tag::autocomplete2[]
 
+[.white]
 |===
 a|
 [#suggest_examples]
@@ -302,19 +373,20 @@ kbd:[ENTER] (Corrects the `history` command word. Strips `more` from the command
 // tag::history[]
 ==== Viewing history of previous commands: `history`
 
-Display previous user inputs during this session. Does not include the executed `history` itself. +
+Displays previous user inputs during this session. Does not include the executed `history` itself. +
  +
-Format: `history`
+Format: `history [more]`
 
 [NOTE]
 Extended usage of `history`: +
-Use `history more` to generate a report of all cumulative command history.
+If you wish to get a report of all commands executed across sessions, use `history more` and a report will be generated.
 
 [WARNING]
-ThanePark stores the command history in `commandHistory.xml`. If the storage file size exceeds 5MB,
-no new command history will be logged. Additionally, if the file format is changed, the program will
-restart the collation of history.
+The `xml` file produce by ThanePark was not designed for you to read. +
+You may experience loss of command history information when `commandHistory.xml` exceeds 5MB
+or is unintentionally modified.
 
+[.white]
 |===
 a|
 Examples:
@@ -336,16 +408,17 @@ Undo previous command during current session. +
  +
 Format: `undo`
 
+[.white]
 |===
 a|
 Examples:
 
 * `delete 1` +
-`view` +
+`viewAll` +
 `undo` (reverses the `delete 1` command) +
 
 * `view 1` +
-`view` +
+`viewAll` +
 `undo` +
 The `undo` command fails as there are no undoable commands executed previously.
 
@@ -531,9 +604,6 @@ The list of results should be like this if no changes were made to the applicati
 
 image::./ui_screenshots/find-example-1.png[width="600"]
 
-[NOTE]
-The input argument is case-insensitive i.e. "accelerator" and "Accelerator" should give the same result.
-
 * `find z/ sci-fi` +
 Finds and displays the list of attractions with zones that contain the word "sci-fi".
 The list of results should look like this:
@@ -580,7 +650,7 @@ on the `BrowserPanel` or show the short help menu if no rides are found.
 
 // end::filter[]
 
-=== Add access for different type of users
+=== Coming in v2.0
 
 This section contains all commands that is related to accessing the system.
 
@@ -599,6 +669,25 @@ Format: `login <username> <password>`
 Logs out a user from the system. +
 Format: `logout`
 
+==== Security features
+Secures ThanePark data by requiring operators to log in using their identity.
+
+==== Identity logging
+Command history will now track the identity of the person who executed the command.
+
+==== Network deployment
+ThanePark will have network capabilities that allow it to communicate with other devices.
+
+==== Zone and tag length limit of 40 characters
+ThanePark will be able to handle zones and tags of over 40 characters. Currently the text will overflow, thus
+users should refrain from going over the limit.
+
+==== Customizable ride image
+You will be able to customize the image for each and every ride.
+
+==== Realtime data
+You will be receiving live data from other sources in the network.
+Also, the maintenance and wait time will update in realtime.
 
 == FAQ
 
@@ -614,23 +703,33 @@ Format: `logout`
 
 2+|*Manage Attractions*
 
-|*Add* |`add <attraction>` `<maintenance>` `<waitTime>` `<address>` `[tag(s)]` +
-  e.g. add n/Mummy m/3 w/45 a/311, Clementi Ave 2, #02-25 t/3D t/indoor
+
+|*Add* |`add <n/attraction>` `<m/maintenance>` `<w/waitTime>` `<z/zone>` `[t/tag(s)]` +
+  e.g. add n/Mummy m/3 w/45 z/311, Clementi Ave 2, #02-25 t/3D t/indoor
 |*Delete* |`delete <index>` +
   e.g. delete 3
-|*Update* |`update <index> <tag> <value>`
+|*Update* |`update <index> <prefix/value>` +
+  e.g. update 2 m/90 w/60
+
 |*Shutdown* |`shutdown <index>`
 |*Open* |`open <index>`
 |*Maintain* |`maintain <index>`
 |*Clear* |`clear`
 
 2+|*Get help and accessibility*
-|*Help* |`help [option]`
-|*Autocomplete* |kbd:[TAB]
-|*History* |`history [option]`
-|*Undo* |`undo`
-|*Redo* |`redo`
-|*Exit* |`exit`
+|*Help* |`help [more]`, `help [commandWord]` +
+e.g. help add
+|*Using Autocomplete* |kbd:[TAB] +
+e.g. dele +
+kbd:[TAB] completes the delete command word.
+|*History* |`history [more]` +
+e.g. history more
+|*Undo* |`undo` +
+e.g. undo
+|*Redo* |`redo` +
+e.g. redo
+|*Exit* |`exit` +
+e.g. exit
 
 2+|*View information on the list of rides*
 |*View all* |`viewall`

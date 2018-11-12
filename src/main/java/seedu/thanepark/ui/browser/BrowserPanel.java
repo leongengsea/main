@@ -12,8 +12,8 @@ import javafx.scene.web.WebView;
 import seedu.thanepark.commons.core.LogsCenter;
 import seedu.thanepark.commons.events.ui.RidePanelSelectionChangedEvent;
 import seedu.thanepark.commons.util.FilePathToUrl;
-import seedu.thanepark.commons.util.RidePageGenerator;
 import seedu.thanepark.model.ride.Ride;
+import seedu.thanepark.storage.html.RidePageGenerator;
 
 /**
  * The Browser Panel of the App.

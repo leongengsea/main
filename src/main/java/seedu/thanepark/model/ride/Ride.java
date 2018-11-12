@@ -33,7 +33,7 @@ public class Ride implements HtmlFormattable {
     private final Set<Tag> tags = new HashSet<>();
 
     //Current state
-    private Status status;
+    private final Status status;
 
     /**
      * Every field except status must be present and not null. Default value of status is OPEN.
@@ -96,14 +96,6 @@ public class Ride implements HtmlFormattable {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
-    }
-
-    public void setDaysSinceMaintenance(int value) {
-        this.daysSinceMaintenance.setValue(value);
-    }
-
-    public void setWaitingTime(int value) {
-        this.waitingTime.setValue(value);
     }
 
     /**

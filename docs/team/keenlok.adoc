@@ -31,8 +31,8 @@ features, namely `filter` and `find`.
 ** What it does: This feature allows users to filter entries based on the conditions that they can input.
 
 ** Justification: This feature significantly improves the application as it offers users the ability to look for the rides
- that they need and do not need to go through each ride in the list that fits their requirements. They can simple specify
- a range and then the application will provide a list of entries that is within the range specified.
+ that they need and do not need to go through each ride in the list that fits their requirements. They can simply specify
+ a range and the application will provide a list of entries that is within the range specified.
 
 ** Highlights: This enhancement introduces a new predicate class, `RideContainsConditionPredicate`, to allow
 users to input a range of values to compare values with the existing data.The attributes of the rides that contains numeric
@@ -51,7 +51,7 @@ compare the values with the `Maintenance` and `WaitTime` of a ride class.
 
 ** Enhancements to the Project:
 
-*** The `find` feature can now search tags and zones of the rides in addition to the names of the rides
+*** The `find` feature can now search ``Tag``s and ``Zone``s of the rides in addition to the names of the rides
 *** Refactored `Address Book` to `Thane Park` in the code.
 
 ** Project management: Reviewed Pull Requests(PR) on github:

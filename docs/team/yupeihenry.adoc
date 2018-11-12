@@ -1,4 +1,4 @@
-= Yu Pei Henry - Project Portfolio
+= Yu Pei, Henry - Project Portfolio
 :toc:
 :toc-title:
 :site-section: AboutUs
@@ -6,7 +6,7 @@
 :stylesDir: ../stylesheets
 
 [discrete]
-== PROJECT: Thane Park
+== Project: ThanePark
 :toc-placement: preamble
 :sectnums:
 
@@ -14,42 +14,46 @@
 
 == Overview
 
-This portfolio highlights my *key contributions* during the NUS CS2103 module on 2018,
-with the *challenge of developing a Command Line Interface (CLI)* from an existing AddressBook application.
+This portfolio highlights my *key contributions* in project ThanePark.
+ThanePark is a *theme park management* application primarily designed for theme park operators,
+with the ability to manage and find essential theme park ride information at a glance. +
 
-ThanePark is a *theme park management* application primarily designed for theme park operators.
-This application was developed under the constraint of *CLI*,
-yet it displays useful information at a glance through utilisation of JavaFX to render the *Graphical User Interface* (GUI).
-It is primarily written in Java and jointly developed by 4 aspiring Software Engineers in *NUS CS2103 module*.
+This project was done as part of NUS CS2103 module requirement on 2018, to practice and showcase my ability
+to develop a *Java application* as *a team of 4* undergraduate students taking the module. This project had a
+*constraint of developing a Command Line Interface (CLI)*. In the course of this project, my team
+extended an existing AddressBook application to build this theme park management application.
 
 == Summary of Contributions
 
-* *Major enhancement*: Developed features that improve the accessibility of the ThanePark application to *improve user productivity*.
-** What it does: It facilitates finding help on specific commands, assist users in completing commands,
+* *Major enhancement*: Developed features that assists users in managing commands of the ThanePark application to *improve user productivity*.
+** *What it does*: It facilitates finding help on specific commands, assist users in completing commands,
 provide a mechanism to log and retrieve command history and gives users important information at a glance.
-** Justification: The primary role of theme park operators is to manage the ride they are stationed at.
+** *Justification*: The primary role of theme park operators is to manage the ride they are stationed at.
 By making the application easier to use, operators will not find using the application a chore, can quickly
 perform required actions and focus on managing their ride.
-** Highlights: This enhancement affects existing commands and can be easily extended on addition of new commands. There
+** *Highlights*: This enhancement affects existing commands and can be easily extended on addition of new commands. There
 is an added challenge of reducing dependencies across the `Logic`, `Model`, `Storage` and `UI` components of ThanePark.
-** Credits: https://github.com/tipsy/j2html[j2html] library to aid formatting of HTML reports.
+** *Credits*: https://github.com/tipsy/j2html[j2html] library to aid formatting of HTML reports.
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+* *Code contributed*: https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=yupeihenry[Code]
 
 * *Other contributions*:
 
-** Project management:
-*** Managed releases `v1.1` - `v1.3` (3 releases) on GitHub
-** Enhancements to existing features:
-*** Updated the GUI color scheme (Pull requests )
-** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com/CS2103-AY1819S1-W14-2/main/pull/12[#12], https://github.com/CS2103-AY1819S1-W14-2/main/pull/48[#48], https://github.com/CS2103-AY1819S1-W14-2/main/pull/82[#82], https://github.com/CS2103-AY1819S1-W14-2/main/pull/99[#99]
-*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[94], https://github.com[89])
-*** Reported bugs and suggestions for other teams in the class (examples:  <Wait for bug hunting PE>)
-** Tools:
-*** Set up Travis CI, coveralls and autodoc to the project
-*** Integrated a third party library (j2html) to the project (https://github.com/CS2103-AY1819S1-W14-2/main/pull/79[#79])
+** *Roles*:
+*** *Team Lead*: Responsible for directing the scope of the application.
+*** *Code Quality*: Responsible for identifying areas of improvement in code written by team mates.
+*** *Deliverables and Deadlines*: Responsible for managing team deadlines of the project.
+*** *Integration*: Responsible for handling integration of code across all team members.
+** *Project management*: Managed releases `v1.3` - `v1.4` (2 releases) on GitHub
+** *Enhancements* to existing features: Updated the GUI color scheme (Pull Requests #102)
+** *Community*:
+*** Reviewed Pull Requests (with non-trivial review comments): (Pull Requests #12, #48, #82, #99)
+*** Contributed to forum discussions: (Issues #1, #89, #94)
+** *Tools*:
+*** Installed Travis CI, coveralls and autodoc for team repository
+*** Integrated a third party library (j2html) to the project (Pull request #79)
 
+<<<
 == Contributions to the User Guide
 
 
@@ -68,5 +72,5 @@ include::../UserGuide.adoc[tag=history]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=accessibility]
+include::../DeveloperGuide.adoc[tag=commandManagement]
 
